@@ -4,7 +4,7 @@ class VagonPasajeros{
    var property tieneBanio
    var property estaOrdenado
    method pasajerosPorMetroDeLargo() = if (ancho > 0 and ancho <= 3) 8 else 10
-   method cantMaximaPasajeros()= ancho * self.pasajerosPorMetroDeLargo - if(not estaOrdenado) 15 else 0
+   method cantMaximaPasajeros()= largo * self.pasajerosPorMetroDeLargo - if(not estaOrdenado) 15 else 0
    method cantMaximaCarga()=if(tieneBanio)300 else 800
    method pesoMaximo()= 2000 + 80 * self.cantMaximaPasajeros() + self.cantMaximaCarga()
 
