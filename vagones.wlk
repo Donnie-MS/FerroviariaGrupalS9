@@ -26,8 +26,6 @@ class Formacion {
    method vagonConPasajeros() = vagones.filter({vagon => vagon.pasajeros() > 0})
    //vagones con pasajeros devuelve una lista con vagones que no esten vacios
 
-   method estaOrganizada() = vagones == self.listaVagonesOrdenados()
-   method listaVagonesOrdenados() = vagones.sortBy({vagon => vagon.pasajeros()}) 
 }
 
 class VagonPasajeros{
