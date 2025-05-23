@@ -6,19 +6,19 @@ class Formacion {
    method eliminarDeFormacion(unVagon) {vagones.remove(unVagon)}
 
    method cantMaximaPasajeros() = vagones.sum({vagon => vagon.cantMaximaPasajeros()})
-
+   method cantPasajeros() = vagones.sum({vagon => vagon.pasajeros()})
    method cantVagonesPopulares() = self.vagonesPopulares().size()
    method vagonesPopulares() = vagones.filter({vagon => vagon.cantMaximaPasajeros() > 50})
 
-   method esFormacionCarguera() = vagones.all({vagon => vagon.cantMaximaCarga() >= 1000})
+   method esCarguero() = vagones.all({vagon => vagon.cantMaximaCarga() >= 1000})
 
    method dispersionDePeso() = self.vagonMasPesado().pesoMaximo() - self.vagonMasLiviano().pesoMaximo() 
    method vagonMasPesado() = vagones.max({vagon => vagon.pesoMaximo()})
    method vagonMasLiviano() = vagones.min({vagon => vagon.pesoMaximo()})
 
-   method cantBaños() = vagones.count({vagon => vagon.tieneBanio()})
+   method cantBanios() = vagones.count({vagon => vagon.tieneBanio()})
    
-   method haceMantenimiento() {vagones.forEach({vagon => vagon.haceMantenimiento()})}
+   method hacerMantenimiento() {vagones.forEach({vagon => vagon.hacerMantenimiento()})}
 
    method estaEquilibrada() = (self.vagonConMasPasajeros() - self.vagonConMenosPasajeros()) >= 20
    method vagonConMasPasajeros() = self.vagonConPasajeros().max({vagon => vagon.pasajeros()})
@@ -38,7 +38,12 @@ class VagonPasajeros{
    method cantMaximaPasajeros()= largo * self.pasajerosPorMetroDeLargo() - if(not estaOrdenado) 15 else 0
    method cantMaximaCarga()=if(tieneBanio)300 else 800
    method pesoMaximo()= 2000 + 80 * self.cantMaximaPasajeros() + self.cantMaximaCarga()
-   method hacerMantenimiento() {estaOrdenado = true}
+   method hacerMantenimiento() {
+      if (not estaOrdenado) {
+         estaOrdenado = true
+         pasajeros += 15
+      }
+   }
 }
 class VagonCarga{
    var property cargaMaxIdeal
@@ -55,7 +60,7 @@ class VagonDormitorio{
    var property camas
    var property pasajeros = 0
    method cantMaximaPasajeros()= compartimientos * camas
-   method tieneBanio()=true
+   method tieneBanio() = true
    method cantMaximaCarga()= 1200
    method pesoMaximo()=4000 +80* self.cantMaximaPasajeros() + self.cantMaximaCarga()
    method hacerMantenimiento() {}
