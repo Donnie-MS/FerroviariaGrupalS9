@@ -1,9 +1,19 @@
-import example.pepita
+import vagones.*
 
-describe "group of tests for pepita" {
+describe "compartamiento primera formacion" {
+  const vagonDePasajeros1 = new VagonPasajeros(largo = 10, ancho = 4, estaOrdenado = true, tieneBanio = true) 
+  const vagonDePasajeros2 = new VagonPasajeros(largo = 7, ancho = 2, estaOrdenado = false, tieneBanio = false)
+  const vagonDeCarga1 = new VagonCarga(cargaMaxIdeal = 6800, cantMaderasSueltas = 5)
+  const vagonDormitorio1 = new VagonDormitorio(compartimientos = 8, camas = 3)
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+  const formacion1 = new Formacion()
+
+  method initialize() {
+      formacion1.agregarAFormacion(vagonDePasajeros1)
+      formacion1.agregarAFormacion(vagonDePasajeros2)
+      formacion1.agregarAFormacion(vagonDeCarga1)
   }
-
+  test "description" {
+    assert.equals(1, vagonDormitorio1)
+  }
 }

@@ -2,6 +2,9 @@
 class Formacion {
    const property vagones = []
 
+   method agregarAFormacion(unVagon) {vagones.add(unVagon)}
+   method eliminarDeFormacion(unVagon) {vagones.remove(unVagon)}
+
    method cantMaximaPasajeros() = vagones.sum({vagon => vagon.cantMaximaPasajeros()})
 
    method cantVagonesPopulares() = self.vagonesPopulares().size()
@@ -23,16 +26,9 @@ class Formacion {
    method vagonConPasajeros() = vagones.filter({vagon => vagon.pasajeros() > 0})
    //vagones con pasajeros devuelve una lista con vagones que no esten vacios
 
-   method estaOrganizada() = {} 
+   method estaOrganizada() = vagones == self.listaVagonesOrdenados()
+   method listaVagonesOrdenados() = vagones.sortBy({vagon => vagon.pasajeros()}) 
 }
-/*
-si está organizada, o sea: adelante los vagones que llevan pasajeros, y atrás los que no. 
-Para esto, los vagones se tienen que almacenar en una lista. 
-Si agregamos dos vagones que llevan pasajeros, uno que no, y después uno que sí, 
-entonces la formación no está organizada.
-¡Ojo! si todos los vagones de la formación llevan pasajeros,
- o si ninguno lleva, entonces la formación sí se considera organizada.
-*/
 
 class VagonPasajeros{
    var property largo
@@ -49,7 +45,7 @@ class VagonPasajeros{
 class VagonCarga{
    var property cargaMaxIdeal
    var property cantMaderasSueltas
-   var property pasajeros = 0
+   method pasajeros() = 0
    method cantMaximaCarga()= 0.max(cargaMaxIdeal - 400 * cantMaderasSueltas)
    method pesoMaximo()= 1500 + self.cantMaximaCarga()
    method tieneBanio()=false
@@ -64,6 +60,6 @@ class VagonDormitorio{
    method tieneBanio()=true
    method cantMaximaCarga()= 1200
    method pesoMaximo()=4000 +80* self.cantMaximaPasajeros() + self.cantMaximaCarga()
-   method hacerMantenimiento()
+   method hacerMantenimiento() {}
 }
 
