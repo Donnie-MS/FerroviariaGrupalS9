@@ -1,6 +1,7 @@
 
 class Formacion {
    const property vagones = []
+   const property locomotoras = [] 
 
    method agregarAFormacion(unVagon) {vagones.add(unVagon)}
    method eliminarDeFormacion(unVagon) {vagones.remove(unVagon)}
@@ -25,7 +26,11 @@ class Formacion {
    method vagonConMenosPasajeros() = self.vagonConPasajeros().min({vagon => vagon.pasajeros()})
    method vagonConPasajeros() = vagones.filter({vagon => vagon.pasajeros() > 0})
    //vagones con pasajeros devuelve una lista con vagones que no esten vacios
-
+   method velocidadMaxima() = locomotoras.min({e => e.velocidadMaxima()})
+   method esEficiente() = locomotoras.all({e => e.esEficiente()})
+   method puedeMoverse() = locomotoras.sum({e => e.cuantoPuedeArrastrar()}) > self.pesoMaximoFormacion()
+   method pesoMaximoFormacion() = vagones.sum({e=>e.pesoMaximo()}) + locomotoras.sum({e => e.peso()})
+   method cuantoKilosDeEmpujeFaltan() = if (self.puedeMoverse()) 0 else self.pesoMaximoFormacion() - locomotoras.sum({e => e.cuantoPuedeArrastrar()})
 }
 
 class VagonPasajeros{
@@ -66,3 +71,15 @@ class VagonDormitorio{
    method hacerMantenimiento() {}
 }
 
+class Locomotora{
+   var property peso
+   var property cuantoPuedeArrastrar
+   var property velocidadMaxima
+   method esEficiente() = cuantoPuedeArrastrar >= peso * 5
+}
+
+class Deposito{
+   const property Formaciones = []
+   const property VagonesSueltos = []  
+   
+}
