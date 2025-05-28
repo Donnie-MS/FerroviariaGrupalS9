@@ -25,6 +25,7 @@ class Formacion {
    method vagonConMasPasajeros() = self.vagonConPasajeros().max({vagon => vagon.pasajeros()})
    method vagonConMenosPasajeros() = self.vagonConPasajeros().min({vagon => vagon.pasajeros()})
    method vagonConPasajeros() = vagones.filter({vagon => vagon.pasajeros() > 0})
+
    //vagones con pasajeros devuelve una lista con vagones que no esten vacios
    method velocidadMaxima() = locomotoras.min({e => e.velocidadMaxima()})
    method esEficiente() = locomotoras.all({e => e.esEficiente()})
@@ -76,10 +77,4 @@ class Locomotora{
    var property cuantoPuedeArrastrar
    var property velocidadMaxima
    method esEficiente() = cuantoPuedeArrastrar >= peso * 5
-}
-
-class Deposito{
-   const property Formaciones = []
-   const property VagonesSueltos = []  
-   
 }
