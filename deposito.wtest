@@ -1,0 +1,52 @@
+import deposito.*
+import vagones.*
+describe "comportamiento de deposito" {
+  const vagonDePasajeros2 = new VagonPasajeros(largo = 7, ancho = 2, estaOrdenado = false, tieneBanio = false, pasajeros = 41)
+  const vagonDeCarga1 = new VagonCarga(cargaMaxIdeal = 6800, cantMaderasSueltas = 5)
+  const vagonDeCarga2 = new VagonCarga(cargaMaxIdeal = 7800, cantMaderasSueltas = 10)
+  const vagonDormitorio1 = new VagonDormitorio(compartimientos = 8, camas = 3, pasajeros = 24)
+    const locomotora1 = new Locomotora(peso=3000, arrastre=20000, velocidadMaxima = 100)
+  const deposito1 = new Deposito()
+  const formacion1  = new Formacion()
+  const formacion2 = new Formacion()
+  const formacion3 = new Formacion()
+    
+  method initialize() {
+    formacion1.agregarAFormacion(vagonDePasajeros2)
+    formacion1.agregarAFormacion(vagonDeCarga1)
+    formacion2.agregarAFormacion(vagonDormitorio1)
+    formacion3.agregarAFormacion(vagonDeCarga2)
+
+    deposito1.agregarFormacion(formacion1)
+    deposito1.agregarFormacion(formacion2)
+    deposito1.agregarFormacion(formacion3)
+  }
+  test "Obtiene un conjunto de los vagones más pesados de cada formacion" {
+    assert.equals(#{vagonDeCarga1, vagonDormitorio1, vagonDeCarga2}, deposito1.vagonesMasPesadosDeFormaciones())
+  }
+  test "Necesita conductor, formacion1 tiene 2 locomotoras y 6 vagones" {
+    deposito1.agregarFormacion(formacion1)
+    deposito1.agregarFormacion(formacion2)
+    deposito1.agregarFormacion(formacion3)
+
+    formacion1.agregarLocomotora(locomotora1)
+    formacion1.agregarLocomotora(locomotora1)
+    formacion1.agregarAFormacion(vagonDePasajeros2)
+    formacion1.agregarAFormacion(vagonDePasajeros2)
+    formacion1.agregarAFormacion(vagonDePasajeros2)
+    formacion1.agregarAFormacion(vagonDePasajeros2)
+    formacion1.agregarAFormacion(vagonDePasajeros2)
+
+    assert.that(deposito1.necesitaConductor())
+  }
+  test "Necesita conductor, formacion1 tiene peso maximo de 96980(6080+6300+42300+42300)" {
+    const vagonDeCarga3 = new VagonCarga(cargaMaxIdeal = 40800, cantMaderasSueltas = 0)
+    formacion1.agregarAFormacion(vagonDeCarga3)
+    formacion1.agregarAFormacion(vagonDeCarga3)
+    
+    deposito1.agregarFormacion(formacion1)
+
+    assert.that(deposito1.necesitaConductor())
+    assert.equals(96980, formacion1.pesoMaximoFormacion())
+  }
+}

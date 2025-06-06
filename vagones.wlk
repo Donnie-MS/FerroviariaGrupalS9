@@ -5,10 +5,11 @@ class Formacion {
 
    method agregarAFormacion(unVagon) {vagones.add(unVagon)}
    method eliminarDeFormacion(unVagon) {vagones.remove(unVagon)}
-
    method cantMaximaPasajeros() = vagones.sum({vagon => vagon.cantMaximaPasajeros()})
    method cantPasajeros() = vagones.sum({vagon => vagon.pasajeros()})
    method cantVagonesPopulares() = self.vagonesPopulares().size()
+   method cantVagones() = vagones.size()
+   method cantLocomotoras() = locomotoras.size()
    method vagonesPopulares() = vagones.filter({vagon => vagon.cantMaximaPasajeros() > 50})
 
    method esCarguero() = vagones.all({vagon => vagon.cantMaximaCarga() >= 1000})
@@ -34,6 +35,7 @@ class Formacion {
    method puedeMoverse() = locomotoras.sum({e => e.arrastre()}) > self.pesoMaximoFormacion()
    method pesoMaximoFormacion() = vagones.sum({e=>e.pesoMaximo()}) + locomotoras.sum({e => e.peso()})
    method KGDeEmpujeFaltante() = if (self.puedeMoverse()) 0 else self.pesoMaximoFormacion() - locomotoras.sum({e => e.arrastre()})
+   method esCompleja() = self.cantVagones() + self.cantLocomotoras() > 8 or self.pesoMaximoFormacion() > 80000
 }
 
 class VagonPasajeros{
