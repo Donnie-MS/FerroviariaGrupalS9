@@ -38,7 +38,29 @@ describe "compartamiento primera formacion" {
     assert.equals(3200, formacion1.dispersionDePeso())
     assert.equals(2, formacion1.cantBanios())
   }
+  //TEST DE LOCOMOTORA ETAPA 2 
+  test "la formacion tiene peso maximo de 29800, solo contando los vagones" {
+    assert.equals(29800, formacion1.pesoMaximoFormacion())
+  }
+  test "Si la formacion tiene una locomotora(peso=3000, arrastre=20000), entonces, es eficiente, no puede moverse, y le faltan 12800 kg de empuje" {
+    const locomotora1 = new Locomotora(peso=3000, arrastre=20000, velocidadMaxima = 100)
+    const locomotora2 = new Locomotora(peso=5000, arrastre=22000, velocidadMaxima = 200)
+    formacion1.agregarLocomotora(locomotora1)
+    assert.that(formacion1.esEficiente())
+    assert.notThat(formacion1.puedeMoverse())
+    assert.equals(12800, formacion1.KGDeEmpujeFaltante())
+  }
+  test "Si la formacion se le añade una locomotora(peso=3000, arrastre=20000) y otra locomotora(peso=5000, arrastre=22000) . entonces no es eficiente, sí puede moverse, y le faltan 0 kilos de empuje." {
+    const locomotora1 = new Locomotora(peso=3000, arrastre=20000, velocidadMaxima = 100)
+    const locomotora2 = new Locomotora(peso=5000, arrastre=22000, velocidadMaxima = 200)
+    formacion1.agregarLocomotora(locomotora1)
+    formacion1.agregarLocomotora(locomotora2)
+    assert.notThat(formacion1.esEficiente())
+    assert.that(formacion1.puedeMoverse())
+    assert.equals(0, formacion1.KGDeEmpujeFaltante())
+  }
 }
+
 
 describe "comportamiento segunda formacion" {
   const vagonDeCarga1 = new VagonCarga(cargaMaxIdeal = 8000, cantMaderasSueltas = 1)
@@ -59,3 +81,4 @@ describe "comportamiento segunda formacion" {
     assert.equals(1, formacion2.cantBanios())
   }
 }
+

@@ -1,5 +1,7 @@
 import vagones.*
 
+
+
 class Deposito {
   const property deposito = #{}
   const property locomotoras = #{}

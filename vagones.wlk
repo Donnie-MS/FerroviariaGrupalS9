@@ -25,13 +25,15 @@ class Formacion {
    method vagonConMasPasajeros() = self.vagonConPasajeros().max({vagon => vagon.pasajeros()})
    method vagonConMenosPasajeros() = self.vagonConPasajeros().min({vagon => vagon.pasajeros()})
    method vagonConPasajeros() = vagones.filter({vagon => vagon.pasajeros() > 0})
-
    //vagones con pasajeros devuelve una lista con vagones que no esten vacios
+   
+   //Locomotora methods:
+   method agregarLocomotora(unaLocomotora) {locomotoras.add(unaLocomotora)}
    method velocidadMaxima() = locomotoras.min({e => e.velocidadMaxima()})
    method esEficiente() = locomotoras.all({e => e.esEficiente()})
-   method puedeMoverse() = locomotoras.sum({e => e.cuantoPuedeArrastrar()}) > self.pesoMaximoFormacion()
+   method puedeMoverse() = locomotoras.sum({e => e.arrastre()}) > self.pesoMaximoFormacion()
    method pesoMaximoFormacion() = vagones.sum({e=>e.pesoMaximo()}) + locomotoras.sum({e => e.peso()})
-   method cuantoKilosDeEmpujeFaltan() = if (self.puedeMoverse()) 0 else self.pesoMaximoFormacion() - locomotoras.sum({e => e.cuantoPuedeArrastrar()})
+   method KGDeEmpujeFaltante() = if (self.puedeMoverse()) 0 else self.pesoMaximoFormacion() - locomotoras.sum({e => e.arrastre()})
 }
 
 class VagonPasajeros{
@@ -74,7 +76,7 @@ class VagonDormitorio{
 
 class Locomotora{
    var property peso
-   var property cuantoPuedeArrastrar
+   var property arrastre
    var property velocidadMaxima
-   method esEficiente() = cuantoPuedeArrastrar >= peso * 5
+   method esEficiente() = arrastre >= peso * 5
 }
